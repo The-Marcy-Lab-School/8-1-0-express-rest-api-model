@@ -31,6 +31,8 @@ server/
 * `controllers/fellowControllers.js` defines all of the controllers for endpoints relating to fellow data. Each set of data should have its own controllers file.
 * `models/Fellow.js` defines a model for managing fellow data. This model is used exclusively by the fellow controllers. Each set of data managed by the server should have its own model.
 
+The flow of control is: **Client Request > Express `app` > Middleware > Controller > Model > Controller > Server Response**
+
 ![](./images/express-middleware-model.svg)
 
 ## Route Parameters
