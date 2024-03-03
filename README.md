@@ -1,20 +1,94 @@
-# Model - Controller Design
+# Managing Data With a Model
+
+In this lesson, we will introduce the Model layer to our server application design. The Model is responsible for managing CRUD operations for a collection of data that our server manages. For example, if we build a server application that lets users manage a list of Fellows, we will create a `Fellow` model. 
+
+Let's jump in!
 
 - [Terms](#terms)
-- [Model-Controller Design](#model-controller-design)
+- [Making an API for Managing Data](#making-an-api-for-managing-data)
+- [REST](#rest)
+- [Model — Adding a Data Management Layer](#model--adding-a-data-management-layer)
 - [Route Parameters](#route-parameters)
 - [Testing With Postman](#testing-with-postman)
 - [Challenge](#challenge)
 
 ## Terms
 
+**REST API** — an API that conforms to the design principles of the representational state transfer (REST) architectural style.
 **Model** — an interface for managing a data structure. We will implement a model using a `class` with static methods for performing CRUD actions on a set of data.
 **Postman** — a tool for testing HTTP requests
 **Route Parameters** — named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the `req.params` object
 
-## Model-Controller Design
+## Making an API for Managing Data 
 
-Here is the structure of the server:
+In this lesson, we will build a server application that lets users manage a list of fellows. They can:
+* (Create) Add a new fellow to the list
+* (Read) Get all fellows
+* (Read) Get a single fellow
+* (Update) Change the name of a fellow
+* (Delete) Remove a fellow from the list
+
+To execute these operations, our server will create API endpoints where a client can send requests. For example, a `GET /api/fellows` request will send back all of the fellows managed by the application.
+
+**Quiz! (Answer these with a fellow classmate)**
+* Which action will a `GET /api/fellows/5` request perform?
+* Which action will a `PATCH /api/fellows/5` request perform?
+* Which action will a `POST /api/fellows` request perform?
+* Why does the last endpoint not include a number?
+
+## REST
+
+These API endpoints follow the REST design pattern where endpoints look like: `/api/resources/:id`.
+
+Representational state transfer (REST) is a design pattern for creating APIs that adhere to 6 pillars:
+
+<details><summary>Uniform interface</summary>
+
+* All API requests for the same resource should look the same, no matter where the request comes from. 
+* The REST API should ensure that the same piece of data, such as the name or email address of a user, belongs to only one uniform resource identifier (URI). 
+* Resources shouldn’t be too large but should contain every piece of information that the client might need.
+
+</details><br>
+<details><summary>Client-server decoupling</summary>
+
+* The client and server applications must be completely independent of each other. 
+* The only information that the client application should know is the URI of the requested resource; it can't interact with the server application in any other ways. 
+* Similarly, a server application shouldn't modify the client application other than passing it to the requested data via HTTP.
+
+</details><br>
+<details><summary>Statelessness</summary>
+
+* Each request needs to include all the information necessary for processing it.
+* Server applications aren’t allowed to store any data related to a client request.
+
+</details><br>
+<details><summary>Layered System</summary>
+* As a rule of thumb, don’t assume that the client, and server applications connect directly to each other. There may be a number of different intermediaries in the communication loop. 
+* REST APIs need to be designed so that neither the client nor the server can tell whether it communicates with the end application or an intermediary.
+
+</details><br>
+<details><summary>Cacheable</summary>
+
+* When possible, resources should be cacheable on the client or server side. 
+* Server responses also need to contain information about whether caching is allowed for the delivered resource. 
+* The goal is to improve performance on the client side, while increasing scalability on the server side.
+
+</details><br>
+<details><summary>Code on Demand (optional)</summary>
+
+* REST APIs usually send static resources, but in certain cases, responses can also contain executable code (such as Java applets). In these cases, the code should only run on-demand.
+
+</details><br>
+
+## Model — Adding a Data Management Layer
+
+The layered system component of a REST API is what we'll focus on here. We've already established that Express uses layers: when the server receives a request, it must pass through middleware and then controllers before a response is sent.
+
+However, in the server applications we've built so far, the data and files we've sent as responses have all been static. 
+
+To manage a dynamic set of data that allows for full CRUD operations, we need a data layer called a **model**. A model is an interface for managing a data structure. We will implement a model using a `class` with static methods for performing CRUD actions on a set of data.
+
+Find the `models/Fellow.js` file:
 
 ```
 server/
