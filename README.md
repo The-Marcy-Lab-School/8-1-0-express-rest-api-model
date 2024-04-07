@@ -1,6 +1,13 @@
 # Managing Data With a Model
 
-In this lesson, we will introduce the Model layer to our server application design. The Model is responsible for managing CRUD operations for a collection of data that our server manages. For example, if we build a server application that lets users manage a list of Fellows, we will create a `Fellow` model. 
+In this lesson, we will introduce the Model layer to our server application design. At its core, a server manages data, defines API endpoints for accessing that data using CRUD operation, and provides frontend code to render a nice GUI for the user to more abstractly execute those CRUD operations. 
+
+The Model is the portion of the server application that manages the CRUD operations for a server's collection of data. For example, a web-based todo application might:
+- store an array of todo objects in memory
+- define the endponts `GET /API/todos` and `POST /api/todos` to get all todos and to create a new todo
+- provide a React application that fetches renders all the todos and a form that lets a user create a new todo. 
+
+The piece of code that sits between the endpoints and the array of todo objects is the Model.
 
 Let's jump in!
 
