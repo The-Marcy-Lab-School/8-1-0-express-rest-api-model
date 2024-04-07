@@ -21,10 +21,10 @@ Let's jump in!
 
 ## Terms
 
-**REST API** — an API that conforms to the design principles of the representational state transfer (REST) architectural style.
-**Model** — an interface for managing a data structure. We will implement a model using a `class` with static methods for performing CRUD actions on a set of data.
-**Postman** — a tool for testing HTTP requests
-**Route Parameters** — named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the `req.params` object
+- **REST API** — an API that conforms to the design principles of the representational state transfer (REST) architectural style.
+- **Model** — an interface for managing a data structure. We will implement a model using a `class` with static methods for performing CRUD actions on a set of data.
+- **Postman** — a tool for testing HTTP requests
+- **Route Parameters** — named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the `req.params` object
 
 ## Making an API for Managing Data 
 
