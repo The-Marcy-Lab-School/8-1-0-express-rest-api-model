@@ -172,7 +172,7 @@ Finally, build a frontend react application that can interact with the songs API
 * Update: Update a single songs's title or artist.
 * Delete: Delete a single song.
 
-Here is a recommended page structure for your app:
+Here is a recommended React Router page structure for your React app:
 * `/`: The homepage which includes:
   * Form for creating a new song
   * List of all songs
