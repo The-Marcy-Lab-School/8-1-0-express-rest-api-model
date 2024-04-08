@@ -44,8 +44,9 @@ app.get('/api/fellows/:id', serveFellow);
 app.post('/api/fellows', createFellow);
 app.patch('/api/fellows/:id', updateFellow);
 app.delete('/api/fellows/:id', deleteFellow);
-app.get('*', (req, res) => { // The wildcard GET path will catch all other GET requests
-  res.status(404).send({ msg: '404 Not Found' });
+app.get('*', (req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) return next();
+  res.sendFile(pathToFrontendDist);
 });
 
 
