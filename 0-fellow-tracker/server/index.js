@@ -1,8 +1,6 @@
 const express = require('express');
 const path = require('path');
 
-// Instead of defining all of the controllers here, we've moved them to their own folder
-
 const pathToFrontendDist = path.join(__dirname, '..', 'frontend', 'dist');
 const app = express();
 
@@ -41,10 +39,12 @@ const fellowsList = [
   { name: 'zo', id: 3 },
 ];
 
+// app.get('/api/fellows', serveFellows);
 const serveFellows = (req, res, next) => {
   res.send(fellowsList);
 }
 
+// app.get('/api/fellows/:id', serveFellow);
 const serveFellow = (req, res, next) => {
   const { id } = req.params;
   const fellow = fellowsList.find((fellow) => Number(id) === fellow.id);
@@ -52,6 +52,7 @@ const serveFellow = (req, res, next) => {
   res.send(fellow);
 };
 
+// app.post('/api/fellows', createFellow);
 const createFellow = (req, res, next) => {
   const { fellowName } = req.body; // The POST request body will be an object: `{ fellowName: 'name' }`
   const newFellow = {
@@ -62,10 +63,12 @@ const createFellow = (req, res, next) => {
   res.send(newFellow);
 };
 
+// app.patch('/api/fellows/:id', updateFellow);
 const updateFellow = (req, res, next) => {
   res.sendStatus(404);
 }
 
+// app.delete('/api/fellows/:id', deleteFellow);
 const deleteFellow = (req, res, next) => {
   res.sendStatus(404);
 }
@@ -77,6 +80,7 @@ const deleteFellow = (req, res, next) => {
 app.get('/api/fellows', serveFellows);
 app.get('/api/fellows/:id', serveFellow);
 app.post('/api/fellows', createFellow);
+
 app.patch('/api/fellows/:id', updateFellow);
 app.delete('/api/fellows/:id', deleteFellow);
 app.get('*', (req, res, next) => {

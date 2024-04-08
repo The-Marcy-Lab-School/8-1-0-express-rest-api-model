@@ -2,6 +2,23 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import fetchData from '../utils/fetchData';
 
+/* 
+  Client requests frontend 
+  -> server sends frontend 
+  -> frontend renders
+  Frontend code sends a GET /api/fellows request 
+  -> server sends back all fellows 
+  -> Frontend renders all fellows
+  User fills out the form + sends a POST /api/fellows request
+  -> server sends back one fellow
+  -> frontend updates the newlyAddedFellow
+  -> frontend re-renders
+  useEffect runs again because newlyAddedFellow changed
+  -> frontend sends a GET /api/fellows request
+  -> server sends back all fellows
+  -> frontend re-renders everything
+  */
+
 const Home = () => {
   const [fellows, setFellows] = useState([]);
   const [newFellowName, setNewFellowName] = useState('');
@@ -30,6 +47,7 @@ const Home = () => {
         body: JSON.stringify({ fellowName: newFellowName })
       }
       const [data, error] = await fetchData(`/api/fellows/`, options)
+      // The server only sends back the new fellow created
       if (data) setNewlyAddedFellow(data);
     } catch (error) {
       console.log(error);
