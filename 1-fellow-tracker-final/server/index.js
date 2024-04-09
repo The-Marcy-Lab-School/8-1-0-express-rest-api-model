@@ -10,6 +10,14 @@ const {
   deleteFellow
 } = require('./controllers/fellowControllers');
 
+const {
+  serveInstructors,
+  serveInstructor,
+  createInstructor,
+  updateInstructor,
+  deleteInstructor
+} = require('./controllers/instructorControllers');
+
 const app = express();
 const pathToFrontendDist = path.join(__dirname, '..', 'frontend', 'dist');
 
@@ -44,6 +52,13 @@ app.get('/api/fellows/:id', serveFellow);
 app.post('/api/fellows', createFellow);
 app.patch('/api/fellows/:id', updateFellow);
 app.delete('/api/fellows/:id', deleteFellow);
+
+app.get('/api/instructors', serveInstructors);
+app.get('/api/instructors/:id', serveInstructor);
+app.post('/api/instructors', createInstructor);
+app.patch('/api/instructors/:id', updateInstructor);
+app.delete('/api/instructors/:id', deleteInstructor);
+
 app.get('*', (req, res, next) => {
   if (req.originalUrl.startsWith('/api')) return next();
   res.sendFile(pathToFrontendDist);

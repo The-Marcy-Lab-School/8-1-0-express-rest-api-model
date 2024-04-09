@@ -1,6 +1,5 @@
 const getId = require('../utils/getId');
 
-
 /* 
 This class provides an interface for managing Fellow data. 
 Instances of this class can't do much really. They just store data.
@@ -19,7 +18,7 @@ class Fellow {
   }
 
   static list() { // Get all
-    return Fellow.#all;
+    return [...Fellow.#all];
   }
 
   static find(id) { // Get one
@@ -64,5 +63,17 @@ console.log(Fellow.editName(1, 'ZO!!'))
 console.log(Fellow.delete(2))
 console.log(Fellow.list())
 */
+
+// Create
+const ben = new Fellow('ben');
+const zo = new Fellow('zo');
+const carmen = new Fellow('carmen');
+const gonzalo = new Fellow('gonzalo');
+
+console.log(Fellow.list()) // Read
+console.log(Fellow.find(3)) // Read
+console.log(Fellow.editName(3, 'CARMEN!!!!')) // Update
+console.log(Fellow.delete(4)) // Delete
+console.log(Fellow.list()) // Read
 
 module.exports = Fellow;

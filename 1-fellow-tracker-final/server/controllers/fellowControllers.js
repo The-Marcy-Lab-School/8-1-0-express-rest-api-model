@@ -6,11 +6,13 @@ methods provided by the Fellow "model" before sending a
 response back to the client (or an error message).
 */
 
+// Get All (Read)
 const serveFellows = (req, res) => {
   const fellowsList = Fellow.list();
   res.send(fellowsList);
 }
 
+// Get One (Read)
 const serveFellow = (req, res) => {
   const { id } = req.params;
   const fellow = Fellow.find(Number(id));
@@ -19,12 +21,14 @@ const serveFellow = (req, res) => {
   res.send(fellow);
 };
 
+// Create
 const createFellow = (req, res) => {
   const { fellowName } = req.body; // The POST request body will be an object: `{ fellowName: 'name' }`
   const newFellow = new Fellow(fellowName);
   res.send(newFellow);
 };
 
+// Update
 const updateFellow = (req, res) => {
   const { fellowName } = req.body;
   const { id } = req.params;
@@ -34,6 +38,7 @@ const updateFellow = (req, res) => {
   res.send(updatedFellow);
 }
 
+// Delete
 const deleteFellow = (req, res) => {
   const { id } = req.params;
   const didDelete = Fellow.delete(Number(id));
