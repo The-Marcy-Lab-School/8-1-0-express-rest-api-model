@@ -14,6 +14,7 @@ const serveFellows = (req, res) => {
 const serveFellow = (req, res) => {
   const { id } = req.params;
   const fellow = Fellow.find(Number(id));
+
   if (!fellow) return res.status(404).send(`No fellow with the id ${id}`);
   res.send(fellow);
 };

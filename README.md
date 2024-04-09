@@ -12,10 +12,12 @@ The piece of code that sits between the endpoints and the array of todo objects 
 Let's jump in!
 
 - [Terms](#terms)
-- [Making an API for Managing Data](#making-an-api-for-managing-data)
-- [REST](#rest)
 - [Model — Adding a Data Management Layer](#model--adding-a-data-management-layer)
-- [Route Parameters](#route-parameters)
+- [Controllers Interact With The Model](#controllers-interact-with-the-model)
+- [Making API endpoints](#making-api-endpoints)
+  - [Route Parameters](#route-parameters)
+  - [REST](#rest)
+- [Server Organization](#server-organization)
 - [Testing With Postman](#testing-with-postman)
 - [Challenge](#challenge)
 
@@ -26,16 +28,74 @@ Let's jump in!
 - **Postman** — a tool for testing HTTP requests
 - **Route Parameters** — named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the `req.params` object
 
-## Making an API for Managing Data 
+## Model — Adding a Data Management Layer
 
-In this lesson, we will build a server application that lets users manage a list of fellows. They can:
+In this lesson, we will build an API that lets users manage a list of fellows. They can:
 * (Create) Add a new fellow to the list
 * (Read) Get all fellows
 * (Read) Get a single fellow
 * (Update) Change the name of a fellow
 * (Delete) Remove a fellow from the list
 
-To execute these operations, our server will create API endpoints where a client can send requests. For example, a `GET /api/fellows` request will send back all of the fellows managed by the application.
+To provide a dynamic set of data that allows for full CRUD operations, we need a data layer called a **model**. 
+
+A **model** is an interface (a set of functions) for managing a data structure. We will implement a model using a `class` with static methods.
+
+Find the `models/Fellow.js` file and try the following:
+
+```js
+const ben = new Fellow('ben');
+const zo = new Fellow('zo');
+const carmen = new Fellow('carmen');
+const gonzalo = new Fellow('gonzalo');
+
+console.log(Fellow.list())
+console.log(Fellow.find(1))
+console.log(Fellow.editName(1, 'ZO!!'))
+console.log(Fellow.delete(2))
+console.log(Fellow.list())
+```
+
+## Controllers Interact With The Model
+
+How will this model work within our server?
+
+The flow of control is: **Client Request > Express `app` > Middleware > Controller > Model > Controller > Server Response**
+
+![](./images/express-middleware-model.svg)
+
+In the server applications we've built so far, the data and files we've sent as responses have all been hard-coded.
+
+```js
+const serveHello = (req, res, next) => {
+  res.send('hello');
+}
+```
+
+Now, we can use the `Fellow` model to get the data we want and send it back to the client:
+
+```js
+// Get all the fellows from the `Fellow` class and send them back
+const serveFellows = (req, res) => {
+  const fellowsList = Fellow.list();
+  res.send(fellowsList);
+}
+
+// Use a path parameter to find a specific fellow
+const serveFellow = (req, res) => {
+  const { id } = req.params;
+  const fellow = Fellow.find(Number(id));
+
+  if (!fellow) return res.status(404).send(`No fellow with the id ${id}`);
+  res.send(fellow);
+};
+```
+
+## Making API endpoints
+
+We have a class that can manage the list of fellows and we have controllers that can use that model. To let users execute these operations, our server needs API endpoints where a client can send requests. 
+
+For example, a `GET /api/fellows` request will send back all of the fellows managed by the application.
 
 **Quiz! (Answer these with a fellow classmate)**
 * Which action will a `GET /api/fellows/5` request perform?
@@ -43,7 +103,26 @@ To execute these operations, our server will create API endpoints where a client
 * Which action will a `POST /api/fellows` request perform?
 * Why does the last endpoint not include a number?
 
-## REST
+### Route Parameters
+
+https://expressjs.com/en/guide/routing.html#route-parameters
+
+Named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the req.params object
+
+```js
+// Route path: /users/:userId/books/:bookId
+// Request URL: http://localhost:3000/users/34/books/8989
+// req.params: { "userId": "34", "bookId": "8989" }
+
+const serveBook = (req, res) => {
+  const { userId, bookId } = req.params;
+  console.log(userId, bookId); // 34 8989
+}
+
+app.get('/users/:userId/books/:bookId', serveBook)
+```
+
+### REST
 
 These API endpoints follow the REST design pattern where endpoints look like: `/api/resources/:id`.
 
@@ -87,15 +166,9 @@ Representational state transfer (REST) is a design pattern for creating APIs tha
 
 </details><br>
 
-## Model — Adding a Data Management Layer
+## Server Organization
 
-The layered system component of a REST API is what we'll focus on here. We've already established that Express uses layers: when the server receives a request, it must pass through middleware and then controllers before a response is sent.
-
-However, in the server applications we've built so far, the data and files we've sent as responses have all been static. 
-
-To manage a dynamic set of data that allows for full CRUD operations, we need a data layer called a **model**. A model is an interface for managing a data structure. We will implement a model using a `class` with static methods for performing CRUD actions on a set of data.
-
-Find the `models/Fellow.js` file:
+Let's zoom out and look at the organization of the server code now.
 
 ```
 server/
@@ -105,6 +178,7 @@ server/
 ├── models/
 │   └── Fellow.js
 └── utils/
+    ├── getId.js
     └── fetchData.js
 ```
 
@@ -112,28 +186,7 @@ server/
 * `controllers/fellowControllers.js` defines all of the controllers for endpoints relating to fellow data. Each set of data should have its own controllers file.
 * `models/Fellow.js` defines a model for managing fellow data. This model is used exclusively by the fellow controllers. Each set of data managed by the server should have its own model.
 
-The flow of control is: **Client Request > Express `app` > Middleware > Controller > Model > Controller > Server Response**
-
-![](./images/express-middleware-model.svg)
-
-## Route Parameters
-
-https://expressjs.com/en/guide/routing.html#route-parameters
-
-Named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the req.params object
-
-```js
-// Route path: /users/:userId/books/:bookId
-// Request URL: http://localhost:3000/users/34/books/8989
-// req.params: { "userId": "34", "bookId": "8989" }
-
-const serveBook = (req, res) => {
-  const { userId, bookId } = req.params;
-  console.log(userId, bookId); // 34 8989
-}
-
-app.get('/users/:userId/books/:bookId', serveBook)
-```
+By separating our code in this way, we show the separate "layers" of the application.
 
 ## Testing With Postman
 
