@@ -19,13 +19,11 @@ const {
 } = require('./controllers/instructorControllers');
 
 const app = express();
-const pathToFrontendDist = path.join(__dirname, '..', 'frontend', 'dist');
+const pathToFrontendDist = path.join(__dirname, '../frontend/dist');
 
 ////////////////////////
 // Middleware
 ////////////////////////
-
-const serveStatic = express.static(pathToFrontendDist);
 
 const logRoutes = (req, res, next) => {
   const time = (new Date()).toLocaleString();
@@ -34,14 +32,16 @@ const logRoutes = (req, res, next) => {
   next();
 };
 
+const serveStatic = express.static(pathToFrontendDist);
+
 // A new middleware has appeared! 
 // This parses incoming requests with JSON data in the body
 // Access the data using `req.body`
 const parseJSON = express.json();
 
+app.use(logRoutes);   // Print out every incoming request
 app.use(serveStatic); // Serve static public/ content
 app.use(parseJSON);   // Parses request body JSON
-app.use(logRoutes);   // Print out every incoming request
 
 ////////////////////////
 // Endpoints
