@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import fetchData from '../utils/fetchData';
 
 const Home = () => {
+  // Get all fellows from the serverstate
   const [fellows, setFellows] = useState([]);
+  // form input state
   const [newFellowName, setNewFellowName] = useState('');
+  // form submission response state
   const [newlyAddedFellow, setNewlyAddedFellow] = useState({})
 
+  // Get me the most up to date full list of fellows
   useEffect(() => {
     const doFetch = async () => {
       try {
@@ -19,17 +23,16 @@ const Home = () => {
     doFetch();
   }, [newlyAddedFellow])
 
+  // Use the form data to create a POST request to create a new fellow
   const createFellow = async (e) => {
     e.preventDefault();
     try {
-      const options = {
+      const [data, error] = await fetchData(`/api/fellows/`, {
         method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
+        headers: { "Content-type": "application/json" },
         body: JSON.stringify({ fellowName: newFellowName })
-      }
-      const [data, error] = await fetchData(`/api/fellows/`, options)
+      });
+
       if (data) setNewlyAddedFellow(data);
     } catch (error) {
       console.log(error);
