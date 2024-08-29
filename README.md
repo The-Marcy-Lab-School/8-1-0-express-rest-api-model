@@ -1,4 +1,4 @@
-# Managing Data With a Model
+# Building a REST API using MVC Architecture
 
 In this lesson, we will introduce the Model layer to our server application design. At its core, a server manages data, defines API endpoints for accessing that data using CRUD operation, and provides frontend code to render a nice GUI for the user to more abstractly execute those CRUD operations. 
 
