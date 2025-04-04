@@ -1,35 +1,24 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getFellowById, updateFellowName, deleteFellow } from '../adapters/fellowAdapters';
 
 const FellowDetails = () => {
   const [fellow, setFellow] = useState({})
   const [newFellowName, setNewFellowName] = useState('');
-  const { id } = useParams();
   const navigate = useNavigate();
 
   // on load, get the fellow by id
   useEffect(() => {
-    const doFetch = async () => {
-      const foundFellow = await getFellowById(id);
-      setFellow(foundFellow);
-    };
-    doFetch();
+
   }, [])
 
   // when the delete button is pressed, send a DELETE request
   const handleDeleteFellow = async () => {
-    await deleteFellow(id);
     navigate('/');
   }
 
   // when the form is filled out, send a PATCH request
   const handleUpdateFellow = async (e) => {
     e.preventDefault();
-
-    const updatedFellow = await updateFellowName(id, newFellowName);
-    setFellow(updatedFellow);
-
     setNewFellowName('');
   }
 

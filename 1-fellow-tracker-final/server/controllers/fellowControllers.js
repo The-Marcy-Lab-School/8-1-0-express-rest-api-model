@@ -24,7 +24,7 @@ const serveFellow = (req, res) => {
 // Create
 const createFellow = (req, res) => {
   const { fellowName } = req.body; // The POST request body will be an object: `{ fellowName: 'name' }`
-  const newFellow = new Fellow(fellowName);
+  const newFellow = Fellow.create(fellowName);
   res.send(newFellow);
 };
 
