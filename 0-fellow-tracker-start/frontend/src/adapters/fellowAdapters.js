@@ -2,11 +2,7 @@ import handleFetch from "./handleFetch"
 
 export const getAllFellows = async () => {
   const [allFellows, error] = await handleFetch('/api/fellows/')
-  if (error) {
-    console.error("Error fetching fellows:", error);
-    return [];
-  }
-  return allFellows;
+  return [allFellows, error];
 }
 
 export const getFellowById = async (id) => {

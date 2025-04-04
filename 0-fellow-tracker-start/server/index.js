@@ -46,11 +46,5 @@ const serveFellows = (req, res) => {
 
 app.get('/api/fellows', serveFellows);
 
-app.get('*', (req, res, next) => {
-  if (req.originalUrl.startsWith('/api')) return next();
-  res.sendFile(pathToFrontendDist);
-});
-
-
 const port = 8080;
 app.listen(port, () => console.log(`listening at http://localhost:${port}`));

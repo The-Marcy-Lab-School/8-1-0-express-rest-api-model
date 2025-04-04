@@ -11,7 +11,7 @@ const FellowDetails = () => {
   // on load, get the fellow by id
   useEffect(() => {
     const doFetch = async () => {
-      const foundFellow = await getFellowById(id);
+      const [foundFellow, error] = await getFellowById(id);
       setFellow(foundFellow);
     };
     doFetch();
@@ -27,7 +27,7 @@ const FellowDetails = () => {
   const handleUpdateFellow = async (e) => {
     e.preventDefault();
 
-    const updatedFellow = await updateFellowName(id, newFellowName);
+    const [updatedFellow, error] = await updateFellowName(id, newFellowName);
     setFellow(updatedFellow);
 
     setNewFellowName('');

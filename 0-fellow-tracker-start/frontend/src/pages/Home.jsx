@@ -11,7 +11,7 @@ const Home = () => {
   // Get me the most up to date full list of fellows
   useEffect(() => {
     const doFetch = async () => {
-      const allFellows = await getAllFellows()
+      const [allFellows, error] = await getAllFellows();
       setFellows(allFellows);
     }
     doFetch();

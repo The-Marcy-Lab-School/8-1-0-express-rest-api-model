@@ -13,7 +13,7 @@ const Home = () => {
   // Get me the most up to date full list of fellows
   useEffect(() => {
     const doFetch = async () => {
-      const allFellows = await getAllFellows()
+      const [allFellows, error] = await getAllFellows()
       setFellows(allFellows);
     }
     doFetch();
@@ -22,7 +22,7 @@ const Home = () => {
   // Use the form data to create a POST request to create a new fellow
   const handleCreateFellow = async (e) => {
     e.preventDefault();
-    const newFellow = await createFellow(newFellowName)
+    const [newFellow, error] = await createFellow(newFellowName)
     setNewlyAddedFellow(newFellow);
     setNewFellowName('');
   }
