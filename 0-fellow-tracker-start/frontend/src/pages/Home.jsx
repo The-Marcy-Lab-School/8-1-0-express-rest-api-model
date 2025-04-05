@@ -20,8 +20,6 @@ const Home = () => {
   // Use the form data to create a POST request to create a new fellow
   const handleCreateFellow = async (e) => {
     e.preventDefault();
-    console.log(`Creating Fellow ${newFellowName}`);
-    setNewFellowName('');
   }
 
   return (
