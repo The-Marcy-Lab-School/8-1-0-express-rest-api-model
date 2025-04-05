@@ -35,6 +35,7 @@ const serveStatic = express.static(pathToFrontendDist);
 
 app.use(logRoutes);   // Print out every incoming request
 app.use(serveStatic); // Serve static public/ content
+app.use(express.json());
 
 ////////////////////////
 // Endpoints
@@ -45,6 +46,26 @@ const serveFellows = (req, res) => {
   res.send(fellows);
 }
 
+const createFellow = (req, res) => {
+  // make sure this object matches the options.body on the frontend
+  const { fellowName } = req.body;
+
+  if (!fellowName) {
+    return res.status(400).send({ message: "Invalid Name" });
+  }
+
+  const newFellow = {
+    name: fellowName,
+    id: getId()
+  }
+  fellows.push(newFellow)
+
+  res.send(newFellow);
+}
+
+
+
+app.post('/api/fellows', createFellow);
 app.get('/api/fellows', serveFellows);
 
 const port = 8080;
