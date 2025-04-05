@@ -4,6 +4,7 @@
 
 const express = require('express');
 const path = require('path');
+const getId = require('./utils/getId');
 
 ////////////////////////
 // Constants
@@ -14,9 +15,9 @@ const pathToFrontendDist = path.join(__dirname, '../frontend/dist');
 
 // Mock Database
 const fellows = [
-  { name: 'Carmen', id: 1 },
-  { name: 'Reuben', id: 2 },
-  { name: 'Maya', id: 3 },
+  { name: 'Carmen', id: getId() },
+  { name: 'Reuben', id: getId() },
+  { name: 'Maya', id: getId() },
 ];
 
 ////////////////////////
