@@ -1,61 +1,56 @@
 const getId = require('../utils/getId');
 
-/* 
-This class provides an interface for managing Fellow data. 
-Instances of this class can't do much really. They just store data.
+// Restrict access to our mock "database" to just the Model
+const fellows = [
+  { name: 'Carmen', id: getId() },
+  { name: 'Reuben', id: getId() },
+  { name: 'Maya', id: getId() },
+];
 
-The class itself provides static methods for CRUD actions on 
-the collection of fellows.
-*/
 class Fellow {
-  static #all = [];
-
-  constructor(name) { // Create
-    this.id = getId();
-    this.name = name;
-
-    Fellow.#all.push(this);
+  // Create and add the new fellow to the "database" (the fellows array)
+  static create(name) {
+    const newFellow = {
+      name,
+      id: getId()
+    }
+    fellows.push(newFellow);
+    return newFellow;
   }
 
-  static list() { // Get all
-    return [...Fellow.#all];
+  // Get all values from the "database"
+  static getAll() {
+    return [...fellows];
   }
 
-  static find(id) { // Get one
-    return Fellow.#all.find((fellow) => fellow.id === id);
+  // Get one value from the "database"
+  static find(id) {
+    return fellows.find((fellow) => fellow.id === id);
   }
 
-  static editName(id, newName) { // Update
+  // Update one value from the "database"
+  static editName(id, newName) {
     const fellow = Fellow.find(id);
     if (!fellow) return null;
     fellow.name = newName;
     return fellow;
   }
 
-  static delete(id) { // Delete
-    const fellowIndex = Fellow.#all.findIndex((fellow) => fellow.id === id);
-    if (fellowIndex < 0) return null;
+  // Delete one value from the "database"
+  static delete(id) {
+    const fellowIndex = fellows.findIndex((fellow) => fellow.id === id);
+    if (fellowIndex < 0) return false;
 
-    Fellow.#all.splice(fellowIndex, 1);
+    fellows.splice(fellowIndex, 1);
     return true;
   }
-
-  static deleteAll() { // Delete All
-    if (!Fellow.#all.length) return null;
-
-    Fellow.#all.length = 0;
-    return Fellow.#all;
-  }
 }
+
+module.exports = Fellow;
 
 /* 
 Take a moment and play with these class methods. Try the following and
 run this file with `node Fellow.js`:
-
-const ben = new Fellow('ben');
-const zo = new Fellow('zo');
-const carmen = new Fellow('carmen');
-const gonzalo = new Fellow('gonzalo');
 
 console.log(Fellow.list())
 console.log(Fellow.find(1))
@@ -63,17 +58,3 @@ console.log(Fellow.editName(1, 'ZO!!'))
 console.log(Fellow.delete(2))
 console.log(Fellow.list())
 */
-
-// Create
-const ben = new Fellow('ben');
-const zo = new Fellow('zo');
-const carmen = new Fellow('carmen');
-const gonzalo = new Fellow('gonzalo');
-
-console.log(Fellow.list()) // Read
-console.log(Fellow.find(3)) // Read
-console.log(Fellow.editName(3, 'CARMEN!!!!')) // Update
-console.log(Fellow.delete(4)) // Delete
-console.log(Fellow.list()) // Read
-
-module.exports = Fellow;
