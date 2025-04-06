@@ -7,23 +7,20 @@ const Home = () => {
   const [fellows, setFellows] = useState([]);
   // form input state
   const [newFellowName, setNewFellowName] = useState('');
-  // form submission response state
-  const [newlyAddedFellow, setNewlyAddedFellow] = useState({})
 
   // Get me the most up to date full list of fellows
   useEffect(() => {
     const doFetch = async () => {
-      const [allFellows, error] = await getAllFellows()
+      const [allFellows, error] = await getAllFellows();
       setFellows(allFellows);
     }
     doFetch();
-  }, [newlyAddedFellow])
+  }, [])
 
   // Use the form data to create a POST request to create a new fellow
   const handleCreateFellow = async (e) => {
     e.preventDefault();
-    const [newFellow, error] = await createFellow(newFellowName)
-    setNewlyAddedFellow(newFellow);
+    console.log(`Creating fellow: ${newFellowName}`);
     setNewFellowName('');
   }
 

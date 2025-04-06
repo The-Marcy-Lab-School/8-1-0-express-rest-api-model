@@ -1,4 +1,4 @@
-const fetchData = async (url, options = {}) => {
+const handleFetch = async (url, options = {}) => {
   try {
     const response = await fetch(url, options);
 
@@ -22,4 +22,4 @@ const fetchData = async (url, options = {}) => {
   }
 }
 
-export default fetchData; // Default Export
+export default handleFetch; // Default Export
