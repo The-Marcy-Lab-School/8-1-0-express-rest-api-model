@@ -9,6 +9,7 @@ const fellows = [
 
 class Fellow {
   // Create and add the new fellow to the "database" (the fellows array)
+  // Rather than using a constructor, we use a static method to create a new fellow
   static create(name) {
     const newFellow = {
       name,
