@@ -19,7 +19,7 @@ class Fellow {
   }
 
   // Get all values from the "database"
-  static getAll() {
+  static list() {
     return [...fellows];
   }
 
