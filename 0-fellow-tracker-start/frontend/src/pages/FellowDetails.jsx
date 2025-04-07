@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { getFellowById, updateFellowName, deleteFellow } from '../adapters/fellowAdapters';
 
 const FellowDetails = () => {
   const [fellow, setFellow] = useState({})

@@ -46,26 +46,6 @@ const serveFellows = (req, res) => {
   res.send(fellows);
 }
 
-const createFellow = (req, res) => {
-  // make sure this object matches the options.body on the frontend
-  const { fellowName } = req.body;
-
-  if (!fellowName) {
-    return res.status(400).send({ message: "Invalid Name" });
-  }
-
-  const newFellow = {
-    name: fellowName,
-    id: getId()
-  }
-  fellows.push(newFellow)
-
-  res.send(newFellow);
-}
-
-
-
-app.post('/api/fellows', createFellow);
 app.get('/api/fellows', serveFellows);
 
 const port = 8080;
